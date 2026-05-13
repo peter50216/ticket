@@ -356,6 +356,12 @@ def step_output_empty(context):
     assert context.stdout == '', f"Expected empty output but got: {context.stdout}"
 
 
+@then(r'the error output should be empty')
+def step_error_output_empty(context):
+    """Assert stderr is empty."""
+    assert context.stderr == '', f"Expected empty stderr but got: {context.stderr}"
+
+
 @then(r'the output should contain "(?P<text>[^"]+)"')
 def step_output_contains(context, text):
     """Assert output contains text."""

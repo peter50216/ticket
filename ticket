@@ -89,11 +89,15 @@ generate_id() {
     # Fallback to first 3 chars if single segment (prefix too short)
     [[ ${#prefix} -lt 2 ]] && prefix="${dir_name:0:3}"
 
-    # 4-char random lower case alphanumeric string
+    # 4-char random lower case alphanumeric string. Read a finite chunk so
+    # tr never writes into a pipe closed early by head.
     local hash
-    hash=$(LC_ALL=C tr -dc 'a-z0-9' < /dev/urandom | head -c 4)
+    hash=""
+    while [[ ${#hash} -lt 4 ]]; do
+        hash+=$(LC_ALL=C dd if=/dev/urandom bs=64 count=1 2>/dev/null | tr -dc 'a-z0-9')
+    done
 
-    echo "${prefix}-${hash}"
+    echo "${prefix}-${hash:0:4}"
 }
 
 # Ensure tickets directory exists

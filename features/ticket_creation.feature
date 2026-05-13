@@ -9,6 +9,7 @@ Feature: Ticket Creation
   Scenario: Create a basic ticket with title
     When I run "ticket create 'My first ticket'"
     Then the command should succeed
+    And the error output should be empty
     And the output should match a ticket ID pattern
     And a ticket file should exist with title "My first ticket"
 
