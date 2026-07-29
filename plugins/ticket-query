@@ -1,7 +1,14 @@
 #!/usr/bin/env bash
 # tk-plugin: Output tickets as JSON, optionally filtered with jq
-# tk-plugin-version: 1.0.0
+# tk-plugin-version: 1.0.1
 set -euo pipefail
+
+# tk execs plugins with TICKETS_DIR unset when no tickets directory was found
+if [[ -z "${TICKETS_DIR:-}" ]]; then
+    echo "Error: no .tickets directory found (searched parent directories)" >&2
+    echo "Run 'tk create' to initialize, or set TICKETS_DIR env var" >&2
+    exit 1
+fi
 
 filter="${1:-}"
 

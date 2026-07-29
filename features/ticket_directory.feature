@@ -47,6 +47,24 @@ Feature: Ticket Directory Resolution
     Then the command should fail
     And the output should contain "no .tickets directory found"
 
+  Scenario: Error when no tickets directory for ls plugin
+    Given the tickets directory does not exist
+    When I run "ticket ls"
+    Then the command should fail
+    And the output should contain "no .tickets directory found"
+
+  Scenario: Error when no tickets directory for query plugin
+    Given the tickets directory does not exist
+    When I run "ticket query"
+    Then the command should fail
+    And the output should contain "no .tickets directory found"
+
+  Scenario: Error when no tickets directory for edit plugin
+    Given the tickets directory does not exist
+    When I run "ticket edit some-id"
+    Then the command should fail
+    And the output should contain "no .tickets directory found"
+
   Scenario: TICKETS_DIR env var takes priority over parent walking
     Given a ticket exists with ID "parent-0001" and title "Parent ticket"
     And a separate tickets directory exists at "other-tickets" with ticket "other-0001" titled "Other ticket"
